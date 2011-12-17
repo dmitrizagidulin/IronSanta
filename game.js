@@ -1,29 +1,85 @@
-    /*
-    *
-    * PlayState is the actual game play. We switch to it once user choses "Start game"
-    *
-    */
-	var fps = document.getElementById("test")
+/*
+*
+* PlayState is the actual game play. We switch to it once user choses "Start game"
+*
+*/
+//	var fps = document.getElementById("test")
 	
 	var playerSelect = {}
+
+	function drawText(fontSize, fillColor, text, x, y) {
+		jaws.context.font = "bold "+fontSize+"pt courier";
+		jaws.context.lineWidth = 10
+		jaws.context.fillStyle =  fillColor
+		jaws.context.strokeStyle =  "rgba(200, 200, 200, 0.0)"
+		jaws.context.fillText(text, x, y)
+	}
 	
 	function PlayState() {
+		var topBarHeight = 70
+		var topBarWidth = 800
+		var sideBarWidth = 100
+		var gameAreaMinX = 0
+		var gameAreaMaxX = jaws.width - sideBarWidth
+		var gameAreaMinY = topBarHeight + 4
+		var gameAreaMaxY = jaws.height - topBarHeight
+		
 		var player
 		var playerTypes = {0:'clause', 1:'lucia'}
 		var playerAvatars = {
 			'clause':'img/santa_clause.png',
 			'lucia':'img/santa_lucia.png'
 		}
-		
 		var playerSpeed = 5
+
+		var stages = {
+			0: 'death',
+			1: 'winter',
+			2: 'cynicism',
+			3: 'global_warming',
+			4: 'dry_turkey'
+		}
+		
+		var stageData = {
+			'death':{
+				'boss_name':'Death',
+				'clause_weapon': 'cookie',
+				'lucia_weapon': 'coffee'
+			},
+			'winter':{
+				'boss_name':'Winter',
+				'clause_weapon': 'cookie',
+				'lucia_weapon': 'coffee'
+			},
+			'cynicism':{
+				'boss_name':'Cynicism'
+			},
+			'global_warming':{
+				'boss_name':'Global Warming'
+			},
+			'dry_turkey':{
+				'boss_name':'Dry Turkey'
+			}
+		}
 		
 		var bullets = new jaws.SpriteList()
 		var enemies = new jaws.SpriteList()
-
-		this.setup = function() {
-			playerSelect = playerTypes[playerSelect.charSelected]
-			avatar = playerAvatars[playerSelect]
-			player = new jaws.Sprite({image: avatar, x: 10, y:100})
+		
+		this.stageSelected = function() {
+			return stages[playerSelect['stageSelected']]
+		}
+		
+		this.bossName = function() {
+			stageKey = this.stageSelected()
+			bossName = stageData[stageKey]['boss_name']
+			return bossName
+		}
+		
+		this.setup = function() { 
+			playerChoice = playerTypes[playerSelect['charSelected']]
+			
+			avatar = playerAvatars[playerChoice]
+			player = new jaws.Sprite({image: avatar, x: 10, y:gameAreaMinY + 50})
 			player.can_fire = true
 			jaws.on_keydown("esc",  function() { jaws.switchGameState(MenuState) })
 			jaws.preventDefaultKeys(["up", "down", "left", "right", "space"])
@@ -66,11 +122,21 @@
 			bullets.deleteIf(isHit)
 			enemies.deleteIf(isHit)
 
-			fps.innerHTML = jaws.game_loop.fps
+//			fps.innerHTML = jaws.game_loop.fps
 		}
- 
+
+		this.drawTopBar = function() {
+			jaws.context.strokeStyle = 'Blue';
+			jaws.context.lineWidth   = 2;
+			jaws.context.strokeRect(3,  3, topBarWidth, topBarHeight);
+			barPadding = 18
+			defeatText = 'Defeat: ' + this.bossName()
+			drawText(fontSize=15, fillColor='Black', defeatText, barPadding, barPadding*2)
+		}
+
 		this.draw = function() {
 			jaws.context.clearRect(0,0,jaws.width,jaws.height)
+			this.drawTopBar()
 			player.draw()
 			bullets.drawIf(isAlive)  // will call draw() on all items in the list
 			enemies.drawIf(isAlive)
@@ -82,32 +148,78 @@
 		}
 
 		function isAlive(item) {
-			return !isHit(item)
+			return !isHit(item) && !isOutsideCanvas(item)
 		}
 
 /* Simular to example1 but now we're using jaws properties to get width and height of canvas instead */
 /* This mainly since we let jaws handle the canvas now */
 		function isOutsideCanvas(item) { 
-			return (item.x < 0 || item.y < 0 || item.x > jaws.width || item.y > jaws.height) 
+			return (item.x < gameAreaMinX || item.y < gameAreaMinY || item.x > gameAreaMaxX || item.y > gameAreaMaxY) 
 		}
 		function forceInsideCanvas(item) {
-			if(item.x < 0)                  { item.x = 0  }
-			if(item.right > jaws.width)     { item.x = jaws.width - item.width }
-			if(item.y < 0)                  { item.y = 0 }
-			if(item.bottom  > jaws.height)  { item.y = jaws.height - item.height }
+			if(item.x < gameAreaMinX)                  { item.x = gameAreaMinX  }
+			if(item.right > gameAreaMaxX)     { item.x = gameAreaMaxX - item.width }
+			if(item.y < gameAreaMinY)                  { item.y = gameAreaMinY }
+			if(item.bottom  > gameAreaMaxY)  { item.y = gameAreaMaxY - item.height }
 		}
  
-//      function Bullet(x, y) {
-//        this.x = x
-//        this.y = y
-//        this.collision = false
-//        this.draw = function() {
-////          this.x += 4
-//          jaws.context.drawImage(jaws.assets.get("img/ornament_green.png"), this.x, this.y)
-//        }
-//      }
+////      function Bullet(x, y) {
+////        this.x = x
+////        this.y = y
+////        this.collision = false
+////        this.draw = function() {
+//////          this.x += 4
+////          jaws.context.drawImage(jaws.assets.get("img/ornament_green.png"), this.x, this.y)
+////        }
+////      }
     }
- 
+	
+
+	function IntroState() {
+		this.setup = function() {
+			jaws.preventDefaultKeys(["enter"])
+			jaws.on_keydown(["enter"],  function()  { 
+				jaws.switchGameState(StageSelectState) 
+			})
+		}
+		
+		this.draw = function() {
+			jaws.context.clearRect(0,0,jaws.width,jaws.height)
+			drawText(15, "Black", "Intro goes here.", 250, 70)
+			drawText(10, "Black", "(press Enter to start)", 250, 100)
+		}
+	}
+
+	
+	function StageSelectState() {
+		var index = 0
+		var items = ["Death", "Winter", "Cynicism", "Global Warming", "Dry Turkey"]
+		
+		this.setup = function() {
+			index = 0
+			jaws.preventDefaultKeys(["enter", "up", "down", "s", "w"])
+			jaws.on_keydown(["down","s"],       function()  { index++; if(index >= items.length) {index=items.length-1} } )
+			jaws.on_keydown(["up","w"],         function()  { index--; if(index < 0) {index=0} } )
+			jaws.on_keydown(["enter"],  function()  {
+				playerSelect['stageSelected'] = index
+				jaws.switchGameState(PlayState) 
+			})
+		}
+		
+		this.draw = function() {
+			jaws.context.clearRect(0,0,jaws.width,jaws.height)
+			drawText(15, "Black", "These things harsh Santa's Zen.", 250, 70)
+			drawText(15, "Green", "Destroy them.", 250, 100)
+
+			// Draw stage select
+			for (var i = 0; i < items.length; i++) {
+				fillStyle = (i == index) ? "Red" : "Grey"
+				itemText = (i == index) ? "> "+items[i] : "  "+items[i]
+				drawText(14, fillStyle, itemText, 275, 160 + i * 30)
+			}
+		}
+	}
+	
 /*
 *
 * MenuState is our lobby/welcome menu were gamer can chose start, high score and settings.
@@ -117,7 +229,6 @@
 */
 	function MenuState() {
 		var index = 0
- 
 		var items = ["Santa Claus", "Santa Lucia"]
 		
 		this.setup = function() {
@@ -126,33 +237,25 @@
 			jaws.on_keydown(["up","w"],         function()  { index--; if(index < 0) {index=0} } )
 //			jaws.on_keydown(["enter","space"],  function()  { if(items[index]=="Start") {jaws.switchGameState(PlayState) } } )
 			jaws.on_keydown(["enter","space"],  function()  { 
-				playerSelect.charSelected = index
-				jaws.switchGameState(PlayState) 
+				playerSelect['charSelected'] = index
+				jaws.switchGameState(IntroState) 
 			})
-		}
-
-		this.drawText = function(fontSize, fillColor, text, x, y) {
-			jaws.context.font = "bold "+fontSize+"pt courier";
-			jaws.context.lineWidth = 10
-			jaws.context.fillStyle =  fillColor
-			jaws.context.strokeStyle =  "rgba(200, 200, 200, 0.0)"
-			jaws.context.fillText(text, x, y)
 		}
 		
 		this.draw = function() {
 			jaws.context.clearRect(0,0,jaws.width,jaws.height)
 
 			// Draw Title
-			this.drawText(60, "Green", "Iron Santa", 200, 150)
-			this.drawText(30, "Black", "(world battle)", 270, 200)
+			drawText(60, "Green", "Iron Santa", 200, 150)
+			drawText(30, "Black", "(world battle)", 270, 200)
 
-			this.drawText(18, "Black", "Select Your Santa:", 310, 300)
+			drawText(18, "Black", "Select Your Santa:", 310, 300)
 				
 			// Draw character select
 			for (var i = 0; i < items.length; i++) {
 				fillStyle = (i == index) ? "Red" : "Grey"
 				itemText = (i == index) ? "> "+items[i] : "  "+items[i]
-				this.drawText(14, fillStyle, itemText, 350, 350 + i * 40)
+				drawText(14, fillStyle, itemText, 350, 350 + i * 40)
 			}
 		}
 	}
