@@ -203,8 +203,12 @@
 			jaws.on_keydown(["down","s"],       function()  { index++; if(index >= items.length) {index=items.length-1} } )
 			jaws.on_keydown(["up","w"],         function()  { index--; if(index < 0) {index=0} } )
 			jaws.on_keydown(["enter"],  function()  {
-				playerSelect['stageSelected'] = index
-				jaws.switchGameState(PlayState) 
+				stageKey = stages[index]
+				stageCleared = stagesCleared[stageKey]
+				if(!stageCleared) {
+					playerSelect['stageSelected'] = index
+					jaws.switchGameState(PlayState) 
+				}
 			})
 		}
 		
@@ -217,14 +221,21 @@
 			for (var i = 0; i < items.length; i++) {
 				stageKey = stages[i]
 				fillStyle = "Black"
-				selectMark = "  "
 				stageEnabled = true
+				if(i == index) {
+					selectMark = "> "
+				} else {
+					selectMark = "  "
+				}
+				
 				if(stagesCleared[stageKey] == 1) {
 					fillStyle = "Grey"
 					stageEnabled = false
+					if(i == index) {
+						selectMark = "X "
+					}
 				} else if(i == index) {
 					fillStyle = "Red"
-					selectMark = "> "
 				}
 //				fillStyle = (i == index) ? "Red" : "Black"
 				itemText = selectMark + items[i]
