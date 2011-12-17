@@ -101,28 +101,43 @@
     *   jaws.switchGameState(play)   (jaws.switchGameState(PlayState) would have worked too)
     *
     */
-    function MenuState() {
-      var index = 0
-      var items = ["Start", "Settings", "Highscore"]
+	function MenuState() {
+		var index = 0
  
-      this.setup = function() {
-        index = 0
-        jaws.on_keydown(["down","s"],       function()  { index++; if(index >= items.length) {index=items.length-1} } )
-        jaws.on_keydown(["up","w"],         function()  { index--; if(index < 0) {index=0} } )
-        jaws.on_keydown(["enter","space"],  function()  { if(items[index]=="Start") {jaws.switchGameState(PlayState) } } )
-      }
- 
-      this.draw = function() {
-        jaws.context.clearRect(0,0,jaws.width,jaws.height)
-        for(var i=0; items[i]; i++) {
-          // jaws.context.translate(0.5, 0.5)
-          jaws.context.font = "bold 50pt terminal";
-          jaws.context.lineWidth = 10
-          jaws.context.fillStyle =  (i == index) ? "Red" : "Black"
-          jaws.context.strokeStyle =  "rgba(200,200,200,0.0)"
-          jaws.context.fillText(items[i], 30, 100 + i * 60)
-        }  
-      }
+		var items = ["Santa Claus", "Santa Lucia"]
+		
+		this.setup = function() {
+			index = 0
+			jaws.on_keydown(["down","s"],       function()  { index++; if(index >= items.length) {index=items.length-1} } )
+			jaws.on_keydown(["up","w"],         function()  { index--; if(index < 0) {index=0} } )
+//			jaws.on_keydown(["enter","space"],  function()  { if(items[index]=="Start") {jaws.switchGameState(PlayState) } } )
+			jaws.on_keydown(["enter","space"],  function()  { jaws.switchGameState(PlayState) })
+		}
+
+		this.drawText = function(fontSize, fillColor, text, x, y) {
+			jaws.context.font = "bold "+fontSize+"pt courier";
+			jaws.context.lineWidth = 10
+			jaws.context.fillStyle =  fillColor
+			jaws.context.strokeStyle =  "rgba(200, 200, 200, 0.0)"
+			jaws.context.fillText(text, x, y)
+		}
+		
+		this.draw = function() {
+			jaws.context.clearRect(0,0,jaws.width,jaws.height)
+
+			// Draw Title
+			this.drawText(60, "Green", "Iron Santa", 200, 150)
+			this.drawText(30, "Black", "(world battle)", 270, 200)
+
+			this.drawText(18, "Black", "Select Your Santa:", 310, 300)
+				
+			// Draw character select
+			for (var i = 0; i < items.length; i++) {
+				fillStyle = (i == index) ? "Red" : "Grey"
+				itemText = (i == index) ? "> "+items[i] : "  "+items[i]
+				this.drawText(14, fillStyle, itemText, 350, 350 + i * 40)
+			}
+		}
     }
  
     /*
