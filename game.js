@@ -5,8 +5,16 @@
 */
 //	var fps = document.getElementById("test")
 	
-	var playerSelect = {}
-
+	var playerSelect = []
+	var stagesCleared = {}
+	var stages = {
+			0: 'death',
+			1: 'winter',
+			2: 'cynicism',
+			3: 'global_warming',
+			4: 'dry_turkey'
+	}
+	
 	function drawText(fontSize, fillColor, text, x, y) {
 		jaws.context.font = "bold "+fontSize+"pt courier";
 		jaws.context.lineWidth = 10
@@ -31,14 +39,6 @@
 			'lucia':'img/santa_lucia.png'
 		}
 		var playerSpeed = 5
-
-		var stages = {
-			0: 'death',
-			1: 'winter',
-			2: 'cynicism',
-			3: 'global_warming',
-			4: 'dry_turkey'
-		}
 		
 		var stageData = {
 			'death':{
@@ -65,12 +65,12 @@
 		var bullets = new jaws.SpriteList()
 		var enemies = new jaws.SpriteList()
 		
-		this.stageSelected = function() {
+		this.currentStage = function() {
 			return stages[playerSelect['stageSelected']]
 		}
 		
 		this.bossName = function() {
-			stageKey = this.stageSelected()
+			stageKey = this.currentStage()
 			bossName = stageData[stageKey]['boss_name']
 			return bossName
 		}
@@ -109,9 +109,6 @@
 
 			bullets.forEach(function(sprite, index) {
 				sprite.x += 8
-//        	if(sprite.rect().collideRect(death.rect())) {
-//        		sprite.collision = true
-//        	}
 			})
 			jaws.collideManyWithMany(bullets, enemies).forEach( function(pair, index) {
 				pair[0].collision = true
@@ -122,6 +119,11 @@
 			bullets.deleteIf(isHit)
 			enemies.deleteIf(isHit)
 
+			if(enemies.length == 0) {
+				stagesCleared[this.currentStage()] = 1
+				jaws.switchGameState(MenuState)
+			}
+			
 //			fps.innerHTML = jaws.game_loop.fps
 		}
 
@@ -129,7 +131,7 @@
 			jaws.context.strokeStyle = 'Blue';
 			jaws.context.lineWidth   = 2;
 			jaws.context.strokeRect(3,  3, topBarWidth, topBarHeight);
-			barPadding = 18
+			barPadding = 15
 			defeatText = 'Defeat: ' + this.bossName()
 			drawText(fontSize=15, fillColor='Black', defeatText, barPadding, barPadding*2)
 		}
@@ -213,8 +215,19 @@
 
 			// Draw stage select
 			for (var i = 0; i < items.length; i++) {
-				fillStyle = (i == index) ? "Red" : "Grey"
-				itemText = (i == index) ? "> "+items[i] : "  "+items[i]
+				stageKey = stages[i]
+				fillStyle = "Black"
+				selectMark = "  "
+				stageEnabled = true
+				if(stagesCleared[stageKey] == 1) {
+					fillStyle = "Grey"
+					stageEnabled = false
+				} else if(i == index) {
+					fillStyle = "Red"
+					selectMark = "> "
+				}
+//				fillStyle = (i == index) ? "Red" : "Black"
+				itemText = selectMark + items[i]
 				drawText(14, fillStyle, itemText, 275, 160 + i * 30)
 			}
 		}
@@ -233,6 +246,7 @@
 		
 		this.setup = function() {
 			index = 0
+	
 			jaws.on_keydown(["down","s"],       function()  { index++; if(index >= items.length) {index=items.length-1} } )
 			jaws.on_keydown(["up","w"],         function()  { index--; if(index < 0) {index=0} } )
 //			jaws.on_keydown(["enter","space"],  function()  { if(items[index]=="Start") {jaws.switchGameState(PlayState) } } )
