@@ -5,6 +5,8 @@
 */
 //	var fps = document.getElementById("test")
 	
+	var bulletSpeed = 10
+
 	var playerSelect = []
 	var stagesCleared = {}
 	var stages = {
@@ -13,6 +15,14 @@
 			2: 'cynicism',
 			3: 'global_warming',
 			4: 'dry_turkey'
+	}
+	
+	function allStages() {
+		stageKeys = []
+		for(i in stages) {
+			stageKeys.push(stages[i])
+		}
+		return stageKeys
 	}
 	
 	function drawText(fontSize, fillColor, text, x, y) {
@@ -38,7 +48,7 @@
 			'clause':'img/santa_clause.png',
 			'lucia':'img/santa_lucia.png'
 		}
-		var playerSpeed = 5
+		var playerSpeed = 6
 		
 		var stageData = {
 			'death':{
@@ -108,7 +118,7 @@
 			forceInsideCanvas(player)
 
 			bullets.forEach(function(sprite, index) {
-				sprite.x += 8
+				sprite.x += bulletSpeed
 			})
 			jaws.collideManyWithMany(bullets, enemies).forEach( function(pair, index) {
 				pair[0].collision = true
@@ -121,7 +131,7 @@
 
 			if(enemies.length == 0) {
 				stagesCleared[this.currentStage()] = 1
-				jaws.switchGameState(MenuState)
+				jaws.switchGameState(StageSelectState)
 			}
 			
 //			fps.innerHTML = jaws.game_loop.fps
@@ -257,7 +267,7 @@
 		
 		this.setup = function() {
 			index = 0
-	
+
 			jaws.on_keydown(["down","s"],       function()  { index++; if(index >= items.length) {index=items.length-1} } )
 			jaws.on_keydown(["up","w"],         function()  { index--; if(index < 0) {index=0} } )
 //			jaws.on_keydown(["enter","space"],  function()  { if(items[index]=="Start") {jaws.switchGameState(PlayState) } } )
