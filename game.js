@@ -4,13 +4,26 @@
     *
     */
 	var fps = document.getElementById("test")
+	
+	var playerSelect = {}
+	
 	function PlayState() {
 		var player
+		var playerTypes = {0:'clause', 1:'lucia'}
+		var playerAvatars = {
+			'clause':'img/santa_clause.png',
+			'lucia':'img/santa_lucia.png'
+		}
+		
+		var playerSpeed = 5
+		
 		var bullets = new jaws.SpriteList()
 		var enemies = new jaws.SpriteList()
 
 		this.setup = function() {
-			player = new jaws.Sprite({image: "img/santa_lucia.png", x: 10, y:100})
+			playerSelect = playerTypes[playerSelect.charSelected]
+			avatar = playerAvatars[playerSelect]
+			player = new jaws.Sprite({image: avatar, x: 10, y:100})
 			player.can_fire = true
 			jaws.on_keydown("esc",  function() { jaws.switchGameState(MenuState) })
 			jaws.preventDefaultKeys(["up", "down", "left", "right", "space"])
@@ -21,10 +34,10 @@
 		}
  
 		this.update = function() {
-			if(jaws.pressed("left"))  { player.x -= 2 }
-			if(jaws.pressed("right")) { player.x += 2 }
-			if(jaws.pressed("up"))    { player.y -= 2 }
-			if(jaws.pressed("down"))  { player.y += 2 }
+			if(jaws.pressed("left"))  { player.x -= playerSpeed }
+			if(jaws.pressed("right")) { player.x += playerSpeed }
+			if(jaws.pressed("up"))    { player.y -= playerSpeed }
+			if(jaws.pressed("down"))  { player.y += playerSpeed }
 			if(jaws.pressed("space")) { 
 				if(player.can_fire) {
 					bullet = new jaws.Sprite({image: "img/ornament_green.png", x: player.rect().right, y:player.y})
@@ -112,7 +125,10 @@
 			jaws.on_keydown(["down","s"],       function()  { index++; if(index >= items.length) {index=items.length-1} } )
 			jaws.on_keydown(["up","w"],         function()  { index--; if(index < 0) {index=0} } )
 //			jaws.on_keydown(["enter","space"],  function()  { if(items[index]=="Start") {jaws.switchGameState(PlayState) } } )
-			jaws.on_keydown(["enter","space"],  function()  { jaws.switchGameState(PlayState) })
+			jaws.on_keydown(["enter","space"],  function()  { 
+				playerSelect.charSelected = index
+				jaws.switchGameState(PlayState) 
+			})
 		}
 
 		this.drawText = function(fontSize, fillColor, text, x, y) {
