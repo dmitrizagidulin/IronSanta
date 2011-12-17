@@ -10,12 +10,12 @@
       var enemies = new jaws.SpriteList()
       
       this.setup = function() {
-        player = new jaws.Sprite({image: "/img/pixel_santa1.png", x: 10, y:100})
+        player = new jaws.Sprite({image: "img/pixel_santa1.png", x: 10, y:100})
         player.can_fire = true
         jaws.on_keydown("esc",  function() { jaws.switchGameState(MenuState) })
         jaws.preventDefaultKeys(["up", "down", "left", "right", "space"])
         
-        death = new jaws.Sprite({image: "/img/skull.png", x: 500, y: 150})
+        death = new jaws.Sprite({image: "img/skull.png", x: 500, y: 150})
         death.collision = false
         enemies.push(death)
       }
@@ -27,7 +27,7 @@
         if(jaws.pressed("down"))  { player.y += 2 }
         if(jaws.pressed("space")) { 
           if(player.can_fire) {
-        	  bullet = new jaws.Sprite({image: "/img/ornament_green.png", x: player.rect().right, y:player.y})
+        	  bullet = new jaws.Sprite({image: "img/ornament_green.png", x: player.rect().right, y:player.y})
         	  bullet.collision = false
 //            bullets.push( new Bullet(player.rect().right, player.y) )
         	  bullets.push(bullet)
@@ -89,7 +89,7 @@
         this.collision = false
         this.draw = function() {
 //          this.x += 4
-          jaws.context.drawImage(jaws.assets.get("/img/ornament_green.png"), this.x, this.y)
+          jaws.context.drawImage(jaws.assets.get("img/ornament_green.png"), this.x, this.y)
         }
       }
     }
@@ -131,8 +131,8 @@
     *
     */
     window.onload = function() {
-      jaws.assets.add("/img/pixel_santa1.png")
-      jaws.assets.add("/img/ornament_green.png")
-      jaws.assets.add("/img/skull.png")
+      jaws.assets.add("img/pixel_santa1.png")
+      jaws.assets.add("img/ornament_green.png")
+      jaws.assets.add("img/skull.png")
       jaws.start(MenuState)
     }
