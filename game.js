@@ -3,22 +3,22 @@
     * PlayState is the actual game play. We switch to it once user choses "Start game"
     *
     */
-    var fps = document.getElementById("test")
-    function PlayState() {
-      var player
-      var bullets = new jaws.SpriteList()
-      var enemies = new jaws.SpriteList()
-      
-      this.setup = function() {
-        player = new jaws.Sprite({image: "img/pixel_santa1.png", x: 10, y:100})
-        player.can_fire = true
-        jaws.on_keydown("esc",  function() { jaws.switchGameState(MenuState) })
-        jaws.preventDefaultKeys(["up", "down", "left", "right", "space"])
-        
-        death = new jaws.Sprite({image: "img/skull.png", x: 500, y: 150})
-        death.collision = false
-        enemies.push(death)
-      }
+	var fps = document.getElementById("test")
+	function PlayState() {
+		var player
+		var bullets = new jaws.SpriteList()
+		var enemies = new jaws.SpriteList()
+
+		this.setup = function() {
+			player = new jaws.Sprite({image: "img/pixel_santa1.png", x: 10, y:100})
+			player.can_fire = true
+			jaws.on_keydown("esc",  function() { jaws.switchGameState(MenuState) })
+			jaws.preventDefaultKeys(["up", "down", "left", "right", "space"])
+
+			death = new jaws.Sprite({image: "img/skull.png", x: 500, y: 150})
+			death.collision = false
+			enemies.push(death)
+		}
  
       this.update = function() {
         if(jaws.pressed("left"))  { player.x -= 2 }
@@ -39,7 +39,7 @@
         forceInsideCanvas(player)
         
         bullets.forEach(function(sprite, index) {
-        	sprite.x += 4
+        	sprite.x += 8
 //        	if(sprite.rect().collideRect(death.rect())) {
 //        		sprite.collision = true
 //        	}
@@ -59,8 +59,8 @@
       this.draw = function() {
         jaws.context.clearRect(0,0,jaws.width,jaws.height)
         player.draw()
-        bullets.draw()  // will call draw() on all items in the list
-        enemies.draw()
+        bullets.drawIf(isAlive)  // will call draw() on all items in the list
+        enemies.drawIf(isAlive)
 
       }
  
@@ -69,6 +69,9 @@
     	  return item.collision
       }
       
+      function isAlive(item) {
+    	  return !isHit(item)
+      }
       
       
       /* Simular to example1 but now we're using jaws properties to get width and height of canvas instead */
@@ -83,15 +86,15 @@
         if(item.bottom  > jaws.height)  { item.y = jaws.height - item.height }
       }
  
-      function Bullet(x, y) {
-        this.x = x
-        this.y = y
-        this.collision = false
-        this.draw = function() {
-//          this.x += 4
-          jaws.context.drawImage(jaws.assets.get("img/ornament_green.png"), this.x, this.y)
-        }
-      }
+//      function Bullet(x, y) {
+//        this.x = x
+//        this.y = y
+//        this.collision = false
+//        this.draw = function() {
+////          this.x += 4
+//          jaws.context.drawImage(jaws.assets.get("img/ornament_green.png"), this.x, this.y)
+//        }
+//      }
     }
  
     /*
