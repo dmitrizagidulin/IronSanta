@@ -10,11 +10,11 @@
 	var playerSelect = []
 	var stagesCleared = {}
 	var stages = {
-			0: 'death',
-			1: 'winter',
-			2: 'cynicism',
-			3: 'global_warming',
-			4: 'dry_turkey'
+		0: 'death',
+		1: 'winter',
+		2: 'cynicism',
+		3: 'global_warming',
+		4: 'dry_turkey'
 	}
 	
 	function allStages() {
@@ -23,6 +23,15 @@
 			stageKeys.push(stages[i])
 		}
 		return stageKeys
+	}
+	
+	function allStagesClear() {
+		for(var i in allStages()) {
+			if(stagesCleared[allStages()[i]] != 1) {
+				return false
+			}
+		}
+		return true
 	}
 	
 	function drawText(fontSize, fillColor, text, x, y) {
@@ -208,6 +217,10 @@
 		var items = ["Death", "Winter", "Cynicism", "Global Warming", "Dry Turkey"]
 		
 		this.setup = function() {
+			if(allStagesClear()) {
+				jaws.switchGameState(WinState)
+			}
+			
 			index = 0
 			jaws.preventDefaultKeys(["enter", "up", "down", "s", "w"])
 			jaws.on_keydown(["down","s"],       function()  { index++; if(index >= items.length) {index=items.length-1} } )
@@ -267,7 +280,6 @@
 		
 		this.setup = function() {
 			index = 0
-
 			jaws.on_keydown(["down","s"],       function()  { index++; if(index >= items.length) {index=items.length-1} } )
 			jaws.on_keydown(["up","w"],         function()  { index--; if(index < 0) {index=0} } )
 //			jaws.on_keydown(["enter","space"],  function()  { if(items[index]=="Start") {jaws.switchGameState(PlayState) } } )
@@ -295,6 +307,22 @@
 		}
 	}
  
+	function WinState() {
+		this.setup = function() {
+			i = 1
+//			jaws.preventDefaultKeys(["enter"])
+//			jaws.on_keydown(["enter"],  function()  { 
+//				jaws.switchGameState(StageSelectState) 
+//			})
+		}
+		
+		this.draw = function() {
+			jaws.context.clearRect(0,0,jaws.width,jaws.height)
+			drawText(15, "Black", "You win.", 250, 70)
+			drawText(15, "Black", "All is right with the world", 250, 100)
+		}
+	}
+	
 /*
 *
 * Our script-entry point
