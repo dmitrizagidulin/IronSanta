@@ -5,10 +5,10 @@ function StageList() {
 		return bossName
 	}
 	
-	this.currentStage = null
+	this.currentStageIdx = null
 	
 	this.currentStageId = function() {
-		return this.stages[this.currentStage]
+		return this.stages[this.currentStageIdx]
 	}
 	
 	this.currentStageMarkCleared = function() {
@@ -20,7 +20,7 @@ function StageList() {
 	}
 	
 	this.selectStage = function(index) {
-		this.currentStage = index
+		this.currentStageIdx = index
 	}
 	
 	this.stageData = {
@@ -65,7 +65,7 @@ function StageList() {
 
 	this.allStagesClear = function() {
 		for(var i in this.allStages()) {
-			if(this.stagesCleared[this.allStages()[i]] != 1) {
+			if(!this.isStageCleared(i)) {
 				return false
 			}
 		}
