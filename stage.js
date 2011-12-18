@@ -37,10 +37,7 @@ function Stage(id, data, stageList) {
 	}
 	
 	this.enemyList = function() {
-		enemyList = []
-		enemyId = this.levelData().enemy
-		enemyList.push(enemyId)
-		return enemyList
+		return this.levelData().enemies
 	}
 	
 	this.enemies = function() {
@@ -91,10 +88,10 @@ function StageList() {
 			'boss_name':'Death',
 			'levels':{
 				1: {
-					'enemy': 'skull'
+					'enemies': ['skull']
 				},
 				2: {
-					'enemy': 'skull'
+					'enemies': ['skull']
 				}
 			}
 		},
@@ -102,10 +99,10 @@ function StageList() {
 			'boss_name':'Winter',
 			'levels':{
 				1: {
-					'enemy': 'skull'
+					'enemies': ['skull']
 				},
 				2: {
-					'enemy': 'skull'
+					'enemies': ['skull']
 				}
 			}
 		},
@@ -113,10 +110,10 @@ function StageList() {
 			'boss_name':'Cynicism',
 			'levels':{
 				1: {
-					'enemy': 'skull'
+					'enemies': ['skull']
 				},
 				2: {
-					'enemy': 'skull'
+					'enemies': ['skull']
 				}
 			}
 		},
@@ -124,10 +121,10 @@ function StageList() {
 			'boss_name':'Global Warming',
 			'levels':{
 				1: {
-					'enemy': 'skull'
+					'enemies': ['skull']
 				},
 				2: {
-					'enemy': 'skull'
+					'enemies': ['skull']
 				}
 			}
 		},
@@ -135,10 +132,10 @@ function StageList() {
 			'boss_name':'Dry Turkey',
 			'levels':{
 				1: {
-					'enemy': 'skull'
+					'enemies': ['skull']
 				},
 				2: {
-					'enemy': 'skull'
+					'enemies': ['skull']
 				}
 			}
 		}
