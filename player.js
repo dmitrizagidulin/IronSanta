@@ -9,6 +9,11 @@ function PlayerState() {
 		return this.playerAvatars[this.currentCharSelected()]
 	}
 	
+	this.initAssets = function() {
+		jaws.assets.add("img/santa_clause.png")
+		jaws.assets.add("img/santa_lucia.png")
+	}
+	
 	this.playerAvatars = {
 		'clause':'img/santa_clause.png',
 		'lucia':'img/santa_lucia.png'

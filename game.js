@@ -39,7 +39,7 @@
 		var player
 		
 		var bullets = new jaws.SpriteList()
-		var enemies = new jaws.SpriteList()
+		var enemies = null
 
 		this.setup = function() { 
 			avatar = playerState.currentAvatar()
@@ -48,9 +48,8 @@
 			jaws.on_keydown("esc",  function() { jaws.switchGameState(MenuState) })
 			jaws.preventDefaultKeys(["up", "down", "left", "right", "space"])
 
-			death = new jaws.Sprite({image: "img/skull.png", x: 500, y: 150})
-			death.collision = false
-			enemies.push(death)
+			currentStage = stageList.currentStage()
+			enemies = currentStage.enemies()
 		}
  
 		this.update = function() {
@@ -62,7 +61,7 @@
 				if(player.can_fire) {
 					bullet = new jaws.Sprite({image: "img/ornament_green.png", x: player.rect().right, y:player.y})
 					bullet.collision = false
-//            bullets.push( new Bullet(player.rect().right, player.y) )
+
 					bullets.push(bullet)
 					player.can_fire = false
 					setTimeout(function() { player.can_fire = true }, 100)
@@ -108,7 +107,6 @@
 		}
  
 		function isHit(item) {
-//    	  return item.rect.collideRect(death.rect)  
 			return item.collision
 		}
 
@@ -235,7 +233,6 @@
 			index = 0
 			jaws.on_keydown(["down","s"],       function()  { index++; if(index >= items.length) {index=items.length-1} } )
 			jaws.on_keydown(["up","w"],         function()  { index--; if(index < 0) {index=0} } )
-//			jaws.on_keydown(["enter","space"],  function()  { if(items[index]=="Start") {jaws.switchGameState(GameState) } } )
 			jaws.on_keydown(["enter","space"],  function()  {
 				playerState.selectCharacter(index)
 				jaws.switchGameState(IntroState) 
@@ -262,7 +259,6 @@
  
 	function WinState() {
 		this.setup = function() {
-//			i = 1
 //			jaws.preventDefaultKeys(["enter"])
 //			jaws.on_keydown(["enter"],  function()  { 
 //				jaws.switchGameState(StageSelectState) 
@@ -282,8 +278,7 @@
 *
 */
 	window.onload = function() {
-		jaws.assets.add("img/santa_clause.png")
-		jaws.assets.add("img/santa_lucia.png")
+		playerState.initAssets()
 		jaws.assets.add("img/ornament_green.png")
 		jaws.assets.add("img/skull.png")
 		jaws.start(MenuState)

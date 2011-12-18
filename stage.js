@@ -1,8 +1,27 @@
+function Stage(id, data) {
+	this.id = id
+	this.bossName = data.boss_name
+	
+	this.enemies = function() {
+		enemies = new jaws.SpriteList()
+		death = new jaws.Sprite({image: "img/skull.png", x: 500, y: 150})
+		death.collision = false
+		enemies.push(death)
+		return enemies
+	}
+}
+
 function StageList() {
 	this.currentBossName = function() {
 		stageKey = this.currentStageId()
 		bossName = this.stageData[stageKey]['boss_name']
 		return bossName
+	}
+	
+	this.currentStage = function() {
+		stageId = this.currentStageId()
+		stageData = this.stageData[stageId]
+		return new Stage(stageId, stageData)
 	}
 	
 	this.currentStageIdx = null
