@@ -178,8 +178,7 @@
 			jaws.on_keydown(["up","w"],         function()  { index--; if(index < 0) {index=0} } )
 			jaws.on_keydown(["enter"],  function()  {
 				stageKey = stageList.stages[index]
-				stageCleared = stageList.stagesCleared[stageKey]
-				if(!stageCleared) {
+				if(!stageList.isStageCleared(stageKey)) {
 					stageList.selectStage(index)
 					jaws.switchGameState(GameState) 
 				}
@@ -205,7 +204,7 @@
 					selectMark = "  "
 				}
 				
-				if(stageList.stagesCleared[stageKey] == 1) {
+				if(stageList.isStageCleared(stageKey)) {
 					fillStyle = "Grey"
 					stageEnabled = false
 					stageName += ' (defeated)'

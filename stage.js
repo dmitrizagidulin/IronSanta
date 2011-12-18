@@ -15,6 +15,10 @@ function StageList() {
 		this.stagesCleared[this.currentStageId()] = 1
 	}
 	
+	this.isStageCleared = function(stageId) {
+		return this.stagesCleared[stageId] == 1
+	}
+	
 	this.selectStage = function(index) {
 		this.currentStage = index
 	}
