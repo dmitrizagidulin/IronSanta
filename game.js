@@ -214,11 +214,18 @@
 	
 	function StageSelectState() {
 		var index = 0
-		var items = ["Death", "Winter", "Cynicism", "Global Warming", "Dry Turkey"]
+		var items = []
 		
 		this.setup = function() {
 			if(allStagesClear()) {
 				jaws.switchGameState(WinState)
+			}
+			
+			items = []
+			for(var i in allStages()) {
+				stageKey = stages[i]
+				stageName = stageData[stageKey]['boss_name']
+				items.push(stageName)
 			}
 			
 			index = 0
