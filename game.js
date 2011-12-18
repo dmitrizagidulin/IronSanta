@@ -52,6 +52,11 @@
 			enemies = currentStage.enemies()
 		}
  
+		this.levelMarkCleared = function() {
+			stageList.currentStage().nextLevelMarkCleared()
+			jaws.switchGameState(GameState)
+		}
+		
 		this.update = function() {
 			if(jaws.pressed("left"))  { player.x -= playerSpeed }
 			if(jaws.pressed("right")) { player.x += playerSpeed }
@@ -83,8 +88,7 @@
 			enemies.deleteIf(isHit)
 
 			if(enemies.length == 0) {
-				stageList.currentStageMarkCleared()
-				jaws.switchGameState(StageSelectState)
+				this.levelMarkCleared()
 			}
 //			fps.innerHTML = jaws.game_loop.fps
 		}
@@ -228,9 +232,7 @@
 	
 /*
 *
-* MenuState is our lobby/welcome menu were gamer can chose start, high score and settings.
-* For this example we have only implemented start. Start switches active game state by simply:
-*   jaws.switchGameState(play)   (jaws.switchGameState(GameState) would have worked too)
+* Character select menu
 *
 */
 	function MenuState() {

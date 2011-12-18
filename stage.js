@@ -2,9 +2,11 @@ function Stage(id, data) {
 	this.id = id
 	this.bossName = data.boss_name
 	this.weapons = data.weapons
+	this.totalLevels = 2  // hardcode for now
+	this.level = 1
 	
 	this.currentLevel = function() {
-		return 1
+		return this.level
 	}
 	
 	this.currentWeaponFor = function(charType) {
@@ -17,6 +19,10 @@ function Stage(id, data) {
 		death.collision = false
 		enemies.push(death)
 		return enemies
+	}
+	
+	this.nextLevelMarkCleared = function() {
+		this.level += 1
 	}
 }
 
@@ -46,6 +52,7 @@ function StageList() {
 			'boss_name':'Dry Turkey'
 		}
 	}
+	this.currentStageObj = null
 	this.stagesCleared = {}
 
 	this.currentBossName = function() {
@@ -54,10 +61,9 @@ function StageList() {
 		return bossName
 	}
 	
+	
 	this.currentStage = function() {
-		stageId = this.currentStageId()
-		stageData = this.stageData[stageId]
-		return new Stage(stageId, stageData)
+		return this.currentStageObj
 	}
 	
 	this.currentStageId = function() {
@@ -77,8 +83,14 @@ function StageList() {
 		return this.stagesCleared[stageId] == 1
 	}
 	
+/**
+ * Player has made a selection from the Stage Select screen
+ */
 	this.selectStage = function(index) {
 		this.currentStageIdx = index
+		stageId = this.currentStageId()
+		stageData = this.stageData[stageId]
+		this.currentStageObj = new Stage(stageId, stageData)
 	}
 	
 	this.allStages = function() {
