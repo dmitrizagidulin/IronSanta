@@ -1,8 +1,29 @@
+function Enemy(enemyId) {
+	this.bestiary = {
+		'skull':{
+			'sprite':'img/skull.png',
+			x: 500,
+			y: 150
+		}
+	}
+	this.enemyId = enemyId
+	this.data = this.bestiary[this.enemyId]
+	
+	this.spriteImage = this.data['sprite']
+	this.x = this.data['x']
+	this.y = this.data['y']
+	
+	this.getSprite = function() {
+		return new jaws.Sprite({image: this.spriteImage, x: this.x, y: this.y})
+	}
+}
+
 function Stage(id, data, stageList) {
 	this.id = id
 	this.bossName = data.boss_name
 	this.cleared = false
-	this.weapons = data.weapons
+	this.data = data
+	this.weapons = this.data.weapons
 	this.totalLevels = 2  // hardcode for now
 	this.level = 1
 	this.stageList = stageList
@@ -15,16 +36,32 @@ function Stage(id, data, stageList) {
 		return 'Ornament'
 	}
 	
+	this.enemyList = function() {
+		enemyList = []
+		enemyId = this.levelData().enemy
+		enemyList.push(enemyId)
+		return enemyList
+	}
+	
 	this.enemies = function() {
 		enemies = new jaws.SpriteList()
-		death = new jaws.Sprite({image: "img/skull.png", x: 500, y: 150})
-		death.collision = false
-		enemies.push(death)
+		enemyList = this.enemyList()
+		for(i in enemyList) {
+			enemyId = enemyList[i]
+			enemy = new Enemy(enemyId)
+			sprite = enemy.getSprite()
+			sprite.collision = false
+			enemies.push(sprite)
+		}
 		return enemies
 	}
 	
 	this.isCleared = function() {
 		return this.cleared
+	}
+	
+	this.levelData = function() {
+		return this.data.levels[this.level]
 	}
 	
 	this.nextLevelMarkCleared = function() {
@@ -51,19 +88,59 @@ function StageList() {
 	}
 	this.stageData = {
 		'death':{
-			'boss_name':'Death'
+			'boss_name':'Death',
+			'levels':{
+				1: {
+					'enemy': 'skull'
+				},
+				2: {
+					'enemy': 'skull'
+				}
+			}
 		},
 		'winter':{
-			'boss_name':'Winter'
+			'boss_name':'Winter',
+			'levels':{
+				1: {
+					'enemy': 'skull'
+				},
+				2: {
+					'enemy': 'skull'
+				}
+			}
 		},
 		'cynicism':{
-			'boss_name':'Cynicism'
+			'boss_name':'Cynicism',
+			'levels':{
+				1: {
+					'enemy': 'skull'
+				},
+				2: {
+					'enemy': 'skull'
+				}
+			}
 		},
 		'global_warming':{
-			'boss_name':'Global Warming'
+			'boss_name':'Global Warming',
+			'levels':{
+				1: {
+					'enemy': 'skull'
+				},
+				2: {
+					'enemy': 'skull'
+				}
+			}
 		},
 		'dry_turkey':{
-			'boss_name':'Dry Turkey'
+			'boss_name':'Dry Turkey',
+			'levels':{
+				1: {
+					'enemy': 'skull'
+				},
+				2: {
+					'enemy': 'skull'
+				}
+			}
 		}
 	}
 	this.currentStageObj = null
