@@ -250,6 +250,9 @@
 			// Draw stage select
 			for (var i = 0; i < items.length; i++) {
 				stageKey = stages[i]
+				
+				stageName = items[i]
+				
 				fillStyle = "Black"
 				stageEnabled = true
 				if(i == index) {
@@ -261,6 +264,7 @@
 				if(stagesCleared[stageKey] == 1) {
 					fillStyle = "Grey"
 					stageEnabled = false
+					stageName += ' (defeated)'
 					if(i == index) {
 						selectMark = "X "
 					}
@@ -268,7 +272,7 @@
 					fillStyle = "Red"
 				}
 //				fillStyle = (i == index) ? "Red" : "Black"
-				itemText = selectMark + items[i]
+				itemText = selectMark + stageName
 				drawText(14, fillStyle, itemText, 275, 160 + i * 30)
 			}
 		}
