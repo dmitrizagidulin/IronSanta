@@ -184,7 +184,7 @@
 		
 		this.draw = function() {
 			jaws.context.clearRect(0,0,jaws.width,jaws.height)
-			drawText(15, "Black", "These things harsh Santa's Zen.", 250, 70)
+			drawText(15, "Black", "These things harsh " + playerState.characterName() + "'s Zen.", 250, 70)
 			drawText(15, "Green", "Destroy them.", 250, 100)
 
 			// Draw stage select

@@ -1,4 +1,8 @@
 function PlayerState() {
+	this.characterName = function() {
+		return this.playerData[this.currentCharSelected()]['name']
+	}
+	
 	this.charSelected = null
 	
 	this.currentCharSelected = function() {
@@ -6,7 +10,7 @@ function PlayerState() {
 	}
 	
 	this.currentAvatar = function() {
-		return this.playerAvatars[this.currentCharSelected()]
+		return this.playerData[this.currentCharSelected()]['avatar']
 	}
 	
 	this.initAssets = function() {
@@ -14,9 +18,15 @@ function PlayerState() {
 		jaws.assets.add("img/santa_lucia.png")
 	}
 	
-	this.playerAvatars = {
-		'clause':'img/santa_clause.png',
-		'lucia':'img/santa_lucia.png'
+	this.playerData = {
+		'clause':{
+			'name':'Santa Clause',
+			'avatar':'img/santa_clause.png'
+		},
+		'lucia':{
+			'name':'Santa Lucia',
+			'avatar':'img/santa_lucia.png'
+		}
 	}
 	
 	this.playerTypes = {
