@@ -12,8 +12,6 @@
 	var stagesCleared = {}
 
 	var stageList = new StageList()
-	var stages = stageList.stages
-	var stageData = stageList.stageData
 	
 	function drawText(fontSize, fillColor, text, x, y) {
 		jaws.context.font = "bold "+fontSize+"pt courier";
@@ -43,12 +41,12 @@
 		var enemies = new jaws.SpriteList()
 		
 		this.currentStage = function() {
-			return stages[playerSelect['stageSelected']]
+			return stageList.stages[playerSelect['stageSelected']]
 		}
 		
 		this.bossName = function() {
 			stageKey = this.currentStage()
-			bossName = stageData[stageKey]['boss_name']
+			bossName = stageList.stageData[stageKey]['boss_name']
 			return bossName
 		}
 		
@@ -179,8 +177,8 @@
 			
 			items = []
 			for(var i in stageList.allStages()) {
-				stageKey = stages[i]
-				stageName = stageData[stageKey]['boss_name']
+				stageKey = stageList.stages[i]
+				stageName = stageList.stageData[stageKey]['boss_name']
 				items.push(stageName)
 			}
 			
@@ -189,7 +187,7 @@
 			jaws.on_keydown(["down","s"],       function()  { index++; if(index >= items.length) {index=items.length-1} } )
 			jaws.on_keydown(["up","w"],         function()  { index--; if(index < 0) {index=0} } )
 			jaws.on_keydown(["enter"],  function()  {
-				stageKey = stages[index]
+				stageKey = stageList.stages[index]
 				stageCleared = stagesCleared[stageKey]
 				if(!stageCleared) {
 					playerSelect['stageSelected'] = index
@@ -205,7 +203,7 @@
 
 			// Draw stage select
 			for (var i = 0; i < items.length; i++) {
-				stageKey = stages[i]
+				stageKey = stageList.stages[i]
 				
 				stageName = items[i]
 				

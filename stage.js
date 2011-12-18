@@ -1,4 +1,6 @@
 function StageList() {
+	this.i = 0
+	
 	this.stages = {
 		0: 'death',
 		1: 'winter',
@@ -31,15 +33,15 @@ function StageList() {
 
 	this.allStages = function() {
 		stageKeys = []
-		for(i in stages) {
-			stageKeys.push(stages[i])
+		for(i in this.stages) {
+			stageKeys.push(this.stages[i])
 		}
 		return stageKeys
 	}
 
 	this.allStagesClear = function() {
-		for(var i in stageList.allStages()) {
-			if(stagesCleared[stageList.allStages()[i]] != 1) {
+		for(var i in this.allStages()) {
+			if(stagesCleared[this.allStages()[i]] != 1) {
 				return false
 			}
 		}
