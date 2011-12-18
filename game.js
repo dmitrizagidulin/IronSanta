@@ -94,8 +94,14 @@
 			jaws.context.lineWidth   = 2;
 			jaws.context.strokeRect(3,  3, topBarWidth, topBarHeight);
 			barPadding = 15
+			currentStage = stageList.currentStage()
 			defeatText = 'Defeat: ' + stageList.currentBossName()
 			drawText(fontSize=15, fillColor='Black', defeatText, barPadding, barPadding*2)
+			currentLevel = currentStage.currentLevel()
+			drawText(fontSize=15, fillColor='Black', "Level: "+currentLevel, barPadding + 400, barPadding*2)
+			
+			currentWeapon = currentStage.currentWeaponFor(playerState.currentCharSelected())
+			drawText(fontSize=15, fillColor='Black', "Weapon: "+currentWeapon, barPadding + 400, barPadding*2 + 25)
 		}
 
 		this.draw = function() {
