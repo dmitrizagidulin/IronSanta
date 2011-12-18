@@ -34,6 +34,11 @@ function StageList() {
 		this.stagesCleared[this.currentStageId()] = 1
 	}
 	
+	this.initAssets = function() {
+		jaws.assets.add("img/ornament_green.png")
+		jaws.assets.add("img/skull.png")
+	}
+	
 	this.isStageCleared = function(stageId) {
 		return this.stagesCleared[stageId] == 1
 	}

@@ -279,7 +279,6 @@
 */
 	window.onload = function() {
 		playerState.initAssets()
-		jaws.assets.add("img/ornament_green.png")
-		jaws.assets.add("img/skull.png")
+		stageList.initAssets()
 		jaws.start(MenuState)
 	}
