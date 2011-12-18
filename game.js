@@ -53,8 +53,15 @@
 		}
  
 		this.levelMarkCleared = function() {
-			stageList.currentStage().nextLevelMarkCleared()
-			jaws.switchGameState(GameState)
+			currentStage = stageList.currentStage()
+			currentStage.nextLevelMarkCleared()
+			if(currentStage.isCleared()) {
+				jaws.switchGameState(StageSelectState)
+			} else {
+				// Stage not yet cleared, has more levels. 
+				jaws.switchGameState(GameState)
+			}
+			
 		}
 		
 		this.update = function() {

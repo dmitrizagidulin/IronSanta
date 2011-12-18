@@ -1,9 +1,11 @@
-function Stage(id, data) {
+function Stage(id, data, stageList) {
 	this.id = id
 	this.bossName = data.boss_name
+	this.cleared = false
 	this.weapons = data.weapons
 	this.totalLevels = 2  // hardcode for now
 	this.level = 1
+	this.stageList = stageList
 	
 	this.currentLevel = function() {
 		return this.level
@@ -21,8 +23,20 @@ function Stage(id, data) {
 		return enemies
 	}
 	
+	this.isCleared = function() {
+		return this.cleared
+	}
+	
 	this.nextLevelMarkCleared = function() {
 		this.level += 1
+		if(this.level > this.totalLevels) {
+			this.stageMarkCleared()
+		}
+	}
+	
+	this.stageMarkCleared = function() {
+		this.cleared = true
+		this.stageList.currentStageMarkCleared()
 	}
 }
 
@@ -90,7 +104,7 @@ function StageList() {
 		this.currentStageIdx = index
 		stageId = this.currentStageId()
 		stageData = this.stageData[stageId]
-		this.currentStageObj = new Stage(stageId, stageData)
+		this.currentStageObj = new Stage(stageId, stageData, this)
 	}
 	
 	this.allStages = function() {
