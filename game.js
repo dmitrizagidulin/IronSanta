@@ -8,11 +8,17 @@
 	var bulletSpeed = 10
 	var playerSpeed = 6
 	
-	var playerSelect = []
 	var stageList = new StageList()  // see stage.js
-	
 	var playerState = new PlayerState()  // see player.js
 	
+/**
+ * Utility function to draw text
+ * @param fontSize
+ * @param fillColor
+ * @param text
+ * @param x
+ * @param y
+ */
 	function drawText(fontSize, fillColor, text, x, y) {
 		jaws.context.font = "bold "+fontSize+"pt courier";
 		jaws.context.lineWidth = 10
@@ -31,19 +37,12 @@
 		var gameAreaMaxY = jaws.height - topBarHeight
 		
 		var player
-		var playerTypes = {0:'clause', 1:'lucia'}
-		var playerAvatars = {
-			'clause':'img/santa_clause.png',
-			'lucia':'img/santa_lucia.png'
-		}
 		
 		var bullets = new jaws.SpriteList()
 		var enemies = new jaws.SpriteList()
 
 		this.setup = function() { 
-			playerChoice = playerTypes[playerState.charSelected]
-			
-			avatar = playerAvatars[playerChoice]
+			avatar = playerState.currentAvatar()
 			player = new jaws.Sprite({image: avatar, x: 10, y:gameAreaMinY + 50})
 			player.can_fire = true
 			jaws.on_keydown("esc",  function() { jaws.switchGameState(MenuState) })
