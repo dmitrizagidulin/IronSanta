@@ -6,7 +6,8 @@
 //	var fps = document.getElementById("test")
 	
 	var bulletSpeed = 10
-
+	var playerSpeed = 6
+	
 	var playerSelect = []
 	var stagesCleared = {}
 	var stages = {
@@ -15,6 +16,28 @@
 		2: 'cynicism',
 		3: 'global_warming',
 		4: 'dry_turkey'
+	}
+	
+	var stageData = {
+			'death':{
+				'boss_name':'Death',
+				'clause_weapon': 'cookie',
+				'lucia_weapon': 'coffee'
+			},
+			'winter':{
+				'boss_name':'Winter',
+				'clause_weapon': 'cookie',
+				'lucia_weapon': 'coffee'
+			},
+			'cynicism':{
+				'boss_name':'Cynicism'
+			},
+			'global_warming':{
+				'boss_name':'Global Warming'
+			},
+			'dry_turkey':{
+				'boss_name':'Dry Turkey'
+			}
 	}
 	
 	function allStages() {
@@ -56,29 +79,6 @@
 		var playerAvatars = {
 			'clause':'img/santa_clause.png',
 			'lucia':'img/santa_lucia.png'
-		}
-		var playerSpeed = 6
-		
-		var stageData = {
-			'death':{
-				'boss_name':'Death',
-				'clause_weapon': 'cookie',
-				'lucia_weapon': 'coffee'
-			},
-			'winter':{
-				'boss_name':'Winter',
-				'clause_weapon': 'cookie',
-				'lucia_weapon': 'coffee'
-			},
-			'cynicism':{
-				'boss_name':'Cynicism'
-			},
-			'global_warming':{
-				'boss_name':'Global Warming'
-			},
-			'dry_turkey':{
-				'boss_name':'Dry Turkey'
-			}
 		}
 		
 		var bullets = new jaws.SpriteList()
