@@ -9,9 +9,7 @@
 	var playerSpeed = 6
 	
 	var playerSelect = []
-	var stagesCleared = {}
-
-	var stageList = new StageList()
+	var stageList = new StageList()  // see stage.js
 	
 	function drawText(fontSize, fillColor, text, x, y) {
 		jaws.context.font = "bold "+fontSize+"pt courier";
@@ -95,7 +93,7 @@
 			enemies.deleteIf(isHit)
 
 			if(enemies.length == 0) {
-				stagesCleared[this.currentStage()] = 1
+				stageList.stagesCleared[this.currentStage()] = 1
 				jaws.switchGameState(StageSelectState)
 			}
 //			fps.innerHTML = jaws.game_loop.fps
@@ -188,7 +186,7 @@
 			jaws.on_keydown(["up","w"],         function()  { index--; if(index < 0) {index=0} } )
 			jaws.on_keydown(["enter"],  function()  {
 				stageKey = stageList.stages[index]
-				stageCleared = stagesCleared[stageKey]
+				stageCleared = stageList.stagesCleared[stageKey]
 				if(!stageCleared) {
 					playerSelect['stageSelected'] = index
 					jaws.switchGameState(PlayState) 
@@ -215,7 +213,7 @@
 					selectMark = "  "
 				}
 				
-				if(stagesCleared[stageKey] == 1) {
+				if(stageList.stagesCleared[stageKey] == 1) {
 					fillStyle = "Grey"
 					stageEnabled = false
 					stageName += ' (defeated)'

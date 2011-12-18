@@ -1,14 +1,4 @@
-function StageList() {
-	this.i = 0
-	
-	this.stages = {
-		0: 'death',
-		1: 'winter',
-		2: 'cynicism',
-		3: 'global_warming',
-		4: 'dry_turkey'
-	}
-	
+function StageList() {	
 	this.stageData = {
 		'death':{
 			'boss_name':'Death',
@@ -30,7 +20,17 @@ function StageList() {
 			'boss_name':'Dry Turkey'
 		}
 	}
-
+	
+	this.stages = {
+		0: 'death',
+		1: 'winter',
+		2: 'cynicism',
+		3: 'global_warming',
+		4: 'dry_turkey'
+	}
+	
+	this.stagesCleared = {}
+	
 	this.allStages = function() {
 		stageKeys = []
 		for(i in this.stages) {
@@ -41,7 +41,7 @@ function StageList() {
 
 	this.allStagesClear = function() {
 		for(var i in this.allStages()) {
-			if(stagesCleared[this.allStages()[i]] != 1) {
+			if(this.stagesCleared[this.allStages()[i]] != 1) {
 				return false
 			}
 		}
