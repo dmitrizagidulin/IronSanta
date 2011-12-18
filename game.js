@@ -10,52 +10,10 @@
 	
 	var playerSelect = []
 	var stagesCleared = {}
-	var stages = {
-		0: 'death',
-		1: 'winter',
-		2: 'cynicism',
-		3: 'global_warming',
-		4: 'dry_turkey'
-	}
-	
-	var stageData = {
-			'death':{
-				'boss_name':'Death',
-				'clause_weapon': 'cookie',
-				'lucia_weapon': 'coffee'
-			},
-			'winter':{
-				'boss_name':'Winter',
-				'clause_weapon': 'cookie',
-				'lucia_weapon': 'coffee'
-			},
-			'cynicism':{
-				'boss_name':'Cynicism'
-			},
-			'global_warming':{
-				'boss_name':'Global Warming'
-			},
-			'dry_turkey':{
-				'boss_name':'Dry Turkey'
-			}
-	}
-	
-	function allStages() {
-		stageKeys = []
-		for(i in stages) {
-			stageKeys.push(stages[i])
-		}
-		return stageKeys
-	}
-	
-	function allStagesClear() {
-		for(var i in allStages()) {
-			if(stagesCleared[allStages()[i]] != 1) {
-				return false
-			}
-		}
-		return true
-	}
+
+	var stageList = new StageList()
+	var stages = stageList.stages
+	var stageData = stageList.stageData
 	
 	function drawText(fontSize, fillColor, text, x, y) {
 		jaws.context.font = "bold "+fontSize+"pt courier";
@@ -142,7 +100,6 @@
 				stagesCleared[this.currentStage()] = 1
 				jaws.switchGameState(StageSelectState)
 			}
-			
 //			fps.innerHTML = jaws.game_loop.fps
 		}
 
@@ -210,19 +167,18 @@
 			drawText(10, "Black", "(press Enter to start)", 250, 100)
 		}
 	}
-
 	
 	function StageSelectState() {
 		var index = 0
 		var items = []
 		
 		this.setup = function() {
-			if(allStagesClear()) {
+			if(stageList.allStagesClear()) {
 				jaws.switchGameState(WinState)
 			}
 			
 			items = []
-			for(var i in allStages()) {
+			for(var i in stageList.allStages()) {
 				stageKey = stages[i]
 				stageName = stageData[stageKey]['boss_name']
 				items.push(stageName)
@@ -320,7 +276,7 @@
  
 	function WinState() {
 		this.setup = function() {
-			i = 1
+//			i = 1
 //			jaws.preventDefaultKeys(["enter"])
 //			jaws.on_keydown(["enter"],  function()  { 
 //				jaws.switchGameState(StageSelectState) 
