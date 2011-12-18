@@ -1,6 +1,6 @@
 /*
 *
-* PlayState is the actual game play. We switch to it once user choses "Start game"
+* GameState is the actual game play. We switch to it once user choses "Start game"
 *
 */
 //	var fps = document.getElementById("test")
@@ -11,6 +11,8 @@
 	var playerSelect = []
 	var stageList = new StageList()  // see stage.js
 	
+	var playerState = new PlayerState()  // see player.js
+	
 	function drawText(fontSize, fillColor, text, x, y) {
 		jaws.context.font = "bold "+fontSize+"pt courier";
 		jaws.context.lineWidth = 10
@@ -19,7 +21,7 @@
 		jaws.context.fillText(text, x, y)
 	}
 	
-	function PlayState() {
+	function GameState() {
 		var topBarHeight = 70
 		var topBarWidth = 800
 		var sideBarWidth = 100
@@ -49,7 +51,7 @@
 		}
 		
 		this.setup = function() { 
-			playerChoice = playerTypes[playerSelect['charSelected']]
+			playerChoice = playerTypes[playerState.charSelected]
 			
 			avatar = playerAvatars[playerChoice]
 			player = new jaws.Sprite({image: avatar, x: 10, y:gameAreaMinY + 50})
@@ -189,7 +191,7 @@
 				stageCleared = stageList.stagesCleared[stageKey]
 				if(!stageCleared) {
 					playerSelect['stageSelected'] = index
-					jaws.switchGameState(PlayState) 
+					jaws.switchGameState(GameState) 
 				}
 			})
 		}
@@ -234,7 +236,7 @@
 *
 * MenuState is our lobby/welcome menu were gamer can chose start, high score and settings.
 * For this example we have only implemented start. Start switches active game state by simply:
-*   jaws.switchGameState(play)   (jaws.switchGameState(PlayState) would have worked too)
+*   jaws.switchGameState(play)   (jaws.switchGameState(GameState) would have worked too)
 *
 */
 	function MenuState() {
@@ -245,9 +247,9 @@
 			index = 0
 			jaws.on_keydown(["down","s"],       function()  { index++; if(index >= items.length) {index=items.length-1} } )
 			jaws.on_keydown(["up","w"],         function()  { index--; if(index < 0) {index=0} } )
-//			jaws.on_keydown(["enter","space"],  function()  { if(items[index]=="Start") {jaws.switchGameState(PlayState) } } )
-			jaws.on_keydown(["enter","space"],  function()  { 
-				playerSelect['charSelected'] = index
+//			jaws.on_keydown(["enter","space"],  function()  { if(items[index]=="Start") {jaws.switchGameState(GameState) } } )
+			jaws.on_keydown(["enter","space"],  function()  {
+				playerState.selectCharacter(index)
 				jaws.switchGameState(IntroState) 
 			})
 		}
