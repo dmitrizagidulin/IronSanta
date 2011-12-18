@@ -1,4 +1,24 @@
-function StageList() {	
+function StageList() {
+	this.currentBossName = function() {
+		stageKey = this.currentStageId()
+		bossName = this.stageData[stageKey]['boss_name']
+		return bossName
+	}
+	
+	this.currentStage = null
+	
+	this.currentStageId = function() {
+		return this.stages[this.currentStage]
+	}
+	
+	this.currentStageMarkCleared = function() {
+		this.stagesCleared[this.currentStageId()] = 1
+	}
+	
+	this.selectStage = function(index) {
+		this.currentStage = index
+	}
+	
 	this.stageData = {
 		'death':{
 			'boss_name':'Death',

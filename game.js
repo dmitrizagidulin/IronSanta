@@ -39,17 +39,7 @@
 		
 		var bullets = new jaws.SpriteList()
 		var enemies = new jaws.SpriteList()
-		
-		this.currentStage = function() {
-			return stageList.stages[playerSelect['stageSelected']]
-		}
-		
-		this.bossName = function() {
-			stageKey = this.currentStage()
-			bossName = stageList.stageData[stageKey]['boss_name']
-			return bossName
-		}
-		
+
 		this.setup = function() { 
 			playerChoice = playerTypes[playerState.charSelected]
 			
@@ -95,7 +85,7 @@
 			enemies.deleteIf(isHit)
 
 			if(enemies.length == 0) {
-				stageList.stagesCleared[this.currentStage()] = 1
+				stageList.currentStageMarkCleared()
 				jaws.switchGameState(StageSelectState)
 			}
 //			fps.innerHTML = jaws.game_loop.fps
@@ -106,7 +96,7 @@
 			jaws.context.lineWidth   = 2;
 			jaws.context.strokeRect(3,  3, topBarWidth, topBarHeight);
 			barPadding = 15
-			defeatText = 'Defeat: ' + this.bossName()
+			defeatText = 'Defeat: ' + stageList.currentBossName()
 			drawText(fontSize=15, fillColor='Black', defeatText, barPadding, barPadding*2)
 		}
 
@@ -190,7 +180,7 @@
 				stageKey = stageList.stages[index]
 				stageCleared = stageList.stagesCleared[stageKey]
 				if(!stageCleared) {
-					playerSelect['stageSelected'] = index
+					stageList.selectStage(index)
 					jaws.switchGameState(GameState) 
 				}
 			})
