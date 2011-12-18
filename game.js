@@ -146,6 +146,7 @@
 
 	function IntroState() {
 		this.setup = function() {
+			jaws.on_keydown("esc",  function() { jaws.switchGameState(MenuState) })
 			jaws.preventDefaultKeys(["enter"])
 			jaws.on_keydown(["enter"],  function()  { 
 				jaws.switchGameState(StageSelectState) 
@@ -176,6 +177,7 @@
 			}
 			
 			index = 0
+			jaws.on_keydown("esc",  function() { jaws.switchGameState(MenuState) })
 			jaws.preventDefaultKeys(["enter", "up", "down", "s", "w"])
 			jaws.on_keydown(["down","s"],       function()  { index++; if(index >= items.length) {index=items.length-1} } )
 			jaws.on_keydown(["up","w"],         function()  { index--; if(index < 0) {index=0} } )
