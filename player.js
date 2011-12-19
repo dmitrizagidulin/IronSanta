@@ -21,7 +21,7 @@ function PlayerState() {
 	
 	this.playerData = {
 		'clause':{
-			'name':'Santa Clause',
+			'name':'Santa Claus',
 			'avatar':'img/santa_clause.png'
 		},
 		'lucia':{

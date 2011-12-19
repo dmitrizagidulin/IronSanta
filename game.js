@@ -166,8 +166,10 @@
 		
 		this.draw = function() {
 			jaws.context.clearRect(0,0,jaws.width,jaws.height)
-			drawText(15, "Black", "Intro goes here.", 250, 70)
-			drawText(10, "Black", "(press Enter to start)", 250, 100)
+			drawText(12, "Black", "No matter what you've heard, Santa works alone.", 75, 70)
+			drawText(12, "Black", "There is no Mrs. Claus. There are no reindeer or elves.", 75, 100)
+			drawText(12, "Black", "He is a lone paladin of Christmas and all he wants is to do his work in peace.", 75, 130)
+			drawText(10, "Black", "(press Enter to start)", 75, 160)
 		}
 	}
 	
@@ -284,8 +286,15 @@
 		
 		this.draw = function() {
 			jaws.context.clearRect(0,0,jaws.width,jaws.height)
-			drawText(15, "Black", "You win.", 250, 70)
-			drawText(15, "Black", "All is right with the world", 250, 100)
+			drawText(12, "Black", "You win.", 75, 70)
+			drawText(12, "Black", "All is right with the world", 75, 100)
+			drawText(12, "Black", "The Arctic ice has been restored.", 75, 130)
+			drawText(12, "Black", "Pluto is a planet again.", 75, 160)
+			drawText(12, "Black", "All mortgages have been forgiven.", 75, 190)
+			drawText(12, "Black", "Facebook respects your privacy.", 75, 210)
+			drawText(12, "Black", "Firefly has been renewed.", 75, 240)
+			drawText(12, "Black", "The vessels are mended.", 75, 270)
+			drawText(12, "Black", "Happy holidays.", 75, 330)
 		}
 	}
 	
