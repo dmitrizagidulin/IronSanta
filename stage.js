@@ -4,6 +4,51 @@ function Enemy(enemyId) {
 			'sprite':'img/skull.png',
 			x: 500,
 			y: 150
+		},
+		'death':{
+			'sprite':'img/death.png',
+			x: 500,
+			y: 150
+		},
+		'winter':{
+			'sprite':'img/winter.png',
+			x: 500,
+			y: 150
+		},
+		'cynicism':{
+			'sprite':'img/cynicism.png',
+			x: 500,
+			y: 150
+		},
+		'globalwarming':{
+			'sprite':'img/globalwarming.png',
+			x: 500,
+			y: 150
+		},
+		'dryturkey':{
+			'sprite':'img/dryturkey.png',
+			x: 500,
+			y: 150
+		},
+		'snowman':{
+			'sprite':'img/snowman.jpeg',
+			x: 500,
+			y: 150
+		},
+		'skeleton':{
+			'sprite':'img/skeleton.gif',
+			x: 500,
+			y: 150
+		},
+		'oil':{
+			'sprite':'img/oil.png',
+			x: 500,
+			y: 150
+		},
+		'hipster':{
+			'sprite':'img/hipster.png',
+			x: 500,
+			y: 150
 		}
 	}
 	this.enemyId = enemyId
@@ -24,7 +69,7 @@ function Stage(id, data, stageList) {
 	this.cleared = false
 	this.data = data
 	this.weapons = this.data.weapons
-	this.totalLevels = 2  // hardcode for now
+	this.totalLevels = 1  // hardcode for now
 	this.level = 1
 	this.stageList = stageList
 	
@@ -88,10 +133,7 @@ function StageList() {
 			'boss_name':'Death',
 			'levels':{
 				1: {
-					'enemies': ['skull']
-				},
-				2: {
-					'enemies': ['skull']
+					'enemies': ['death']
 				}
 			}
 		},
@@ -99,10 +141,7 @@ function StageList() {
 			'boss_name':'Winter',
 			'levels':{
 				1: {
-					'enemies': ['skull']
-				},
-				2: {
-					'enemies': ['skull']
+					'enemies': ['winter']
 				}
 			}
 		},
@@ -110,10 +149,7 @@ function StageList() {
 			'boss_name':'Cynicism',
 			'levels':{
 				1: {
-					'enemies': ['skull']
-				},
-				2: {
-					'enemies': ['skull']
+					'enemies': ['cynicism']
 				}
 			}
 		},
@@ -121,10 +157,7 @@ function StageList() {
 			'boss_name':'Global Warming',
 			'levels':{
 				1: {
-					'enemies': ['skull']
-				},
-				2: {
-					'enemies': ['skull']
+					'enemies': ['globalwarming']
 				}
 			}
 		},
@@ -132,10 +165,7 @@ function StageList() {
 			'boss_name':'Dry Turkey',
 			'levels':{
 				1: {
-					'enemies': ['skull']
-				},
-				2: {
-					'enemies': ['skull']
+					'enemies': ['dryturkey']
 				}
 			}
 		}
@@ -164,7 +194,11 @@ function StageList() {
 	
 	this.initAssets = function() {
 		jaws.assets.add("img/ornament_green.png")
-		jaws.assets.add("img/skull.png")
+		jaws.assets.add("img/death.png")
+		jaws.assets.add("img/winter.png")
+		jaws.assets.add("img/cynicism.png")
+		jaws.assets.add("img/globalwarming.png")
+		jaws.assets.add("img/dryturkey.png")
 	}
 	
 	this.isStageCleared = function(stageId) {
@@ -190,11 +224,16 @@ function StageList() {
 	}
 
 	this.allStagesClear = function() {
-		for(var i in this.allStages()) {
-			if(!this.isStageCleared(i)) {
-				return false
-			}
-		}
-		return true
+		return (stageList.stagesCleared['winter'] == 1) && 
+		(stageList.stagesCleared['death'] == 1) &&
+		(stageList.stagesCleared['cynicism'] == 1) &&
+		(stageList.stagesCleared['global_warming'] == 1) &&
+		(stageList.stagesCleared['dry_turkey'] == 1) 
+//		for(var i in this.allStages()) {
+//			if(!this.isStageCleared(i)) {
+//				return false
+//			}
+//		}
+//		return true
 	}
 }

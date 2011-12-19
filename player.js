@@ -14,6 +14,7 @@ function PlayerState() {
 	}
 	
 	this.initAssets = function() {
+		jaws.assets.add("img/heart_full.png")
 		jaws.assets.add("img/santa_clause.png")
 		jaws.assets.add("img/santa_lucia.png")
 	}
@@ -25,7 +26,7 @@ function PlayerState() {
 		},
 		'lucia':{
 			'name':'Santa Lucia',
-			'avatar':'img/santa_lucia.png'
+			'avatar':'img/lucia.png'
 		}
 	}
 	
