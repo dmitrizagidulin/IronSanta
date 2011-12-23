@@ -107,9 +107,11 @@ function Stage(id, data, stageList) {
 	}
 	
 	this.nextLevelMarkCleared = function() {
-		this.level += 1
-		if(this.level > this.totalLevels) {
+		
+		if(this.level >= this.totalLevels) {
 			this.stageMarkCleared()
+		} else {
+			this.level += 1
 		}
 	}
 	
