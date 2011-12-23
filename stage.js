@@ -31,7 +31,7 @@ function Enemy(enemyId) {
 			y: 150
 		},
 		'snowman':{
-			'sprite':'img/snowman.jpeg',
+			'sprite':'img/snowman.jpg',
 			x: 500,
 			y: 150
 		},
@@ -69,9 +69,14 @@ function Stage(id, data, stageList) {
 	this.cleared = false
 	this.data = data
 	this.weapons = this.data.weapons
-	this.totalLevels = 1  // hardcode for now
+	this.totalLevels = 0
 	this.level = 1
 	this.stageList = stageList
+	
+	// Initialize the number of total levels
+	for(i in data.levels) {
+		this.totalLevels++
+	}
 	
 	this.currentLevel = function() {
 		return this.level
@@ -143,6 +148,9 @@ function StageList() {
 			'boss_name':'Winter',
 			'levels':{
 				1: {
+					'enemies': ['snowman']
+				},
+				2: {
 					'enemies': ['winter']
 				}
 			}
@@ -159,6 +167,9 @@ function StageList() {
 			'boss_name':'Global Warming',
 			'levels':{
 				1: {
+					'enemies': ['oil']
+				},
+				2: {
 					'enemies': ['globalwarming']
 				}
 			}
@@ -201,6 +212,8 @@ function StageList() {
 		jaws.assets.add("img/cynicism.png")
 		jaws.assets.add("img/globalwarming.png")
 		jaws.assets.add("img/dryturkey.png")
+		jaws.assets.add("img/snowman.jpg")
+		jaws.assets.add("img/oil.png")
 	}
 	
 	this.isStageCleared = function(stageId) {
