@@ -27,6 +27,11 @@
 		jaws.context.fillText(text, x, y)
 	}
 	
+/**
+ * Main gameplay state.
+ * Reached when player selects a character, and selects a stage 
+ * (so, MenuState -> .. -> StageSelectState -> GameState)
+ */
 	function GameState() {
 		var topBarHeight = 70
 		var topBarWidth = 800
@@ -76,7 +81,7 @@
 
 					bullets.push(bullet)
 					player.can_fire = false
-					setTimeout(function() { player.can_fire = true }, 100)
+					setTimeout(function() { player.can_fire = true }, 200)
 				}
 			}
  
@@ -90,9 +95,9 @@
 				pair[1].collision = true
 			});
 
-			bullets.deleteIf(isOutsideCanvas) // delete items for which isOutsideCanvas(item) is true
-			bullets.deleteIf(isHit)
-			enemies.deleteIf(isHit)
+			bullets.removeIf(isOutsideCanvas) // delete items for which isOutsideCanvas(item) is true
+			bullets.removeIf(isHit)
+			enemies.removeIf(isHit)
 
 			if(enemies.length == 0) {
 				this.levelMarkCleared()

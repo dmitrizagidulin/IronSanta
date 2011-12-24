@@ -1,5 +1,27 @@
 function Enemy(enemyId) {
-	this.bestiary = {
+	this.enemyId = enemyId
+	this.data = this.bestiary[this.enemyId]
+	this.spriteImage = this.data['sprite']
+	this.x = this.data['x']
+	this.y = this.data['y']
+	if(this.data.hp) {
+		this.hp = this.data.hp
+	}
+}
+
+Enemy.prototype.hp = 3  // Default hp
+
+Enemy.prototype.getSprite  = function() {
+	return new jaws.Sprite({image: this.spriteImage, x: this.x, y: this.y})
+}
+
+Enemy.prototype.sprite = Enemy.prototype.getSprite()
+
+Enemy.prototype.draw = function() {
+	Enemy.prototype.sprite.draw()
+}
+
+Enemy.prototype.bestiary = {
 		'skull':{
 			'sprite':'img/skull.png',
 			x: 500,
@@ -8,7 +30,8 @@ function Enemy(enemyId) {
 		'death':{
 			'sprite':'img/death.png',
 			x: 500,
-			y: 150
+			y: 150,
+			hp: 4
 		},
 		'winter':{
 			'sprite':'img/winter.png',
@@ -51,17 +74,7 @@ function Enemy(enemyId) {
 			y: 150
 		}
 	}
-	this.enemyId = enemyId
-	this.data = this.bestiary[this.enemyId]
-	
-	this.spriteImage = this.data['sprite']
-	this.x = this.data['x']
-	this.y = this.data['y']
-	
-	this.getSprite = function() {
-		return new jaws.Sprite({image: this.spriteImage, x: this.x, y: this.y})
-	}
-}
+
 
 function Stage(id, data, stageList) {
 	this.id = id
