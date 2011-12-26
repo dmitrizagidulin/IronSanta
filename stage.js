@@ -7,19 +7,16 @@ function Enemy(enemyId) {
 	if(this.data.hp) {
 		this.hp = this.data.hp
 	}
+	
+	this.collision = false
+	
+	// User parent's constructor
+	jaws.Sprite.call(this, {image: this.spriteImage, x: this.x, y: this.y})
 }
+
+Object.extend(Enemy, jaws.Sprite)
 
 Enemy.prototype.hp = 3  // Default hp
-
-Enemy.prototype.getSprite  = function() {
-	return new jaws.Sprite({image: this.spriteImage, x: this.x, y: this.y})
-}
-
-Enemy.prototype.sprite = Enemy.prototype.getSprite()
-
-Enemy.prototype.draw = function() {
-	Enemy.prototype.sprite.draw()
-}
 
 Enemy.prototype.bestiary = {
 		'skull':{
@@ -109,9 +106,8 @@ function Stage(id, data, stageList) {
 		for(i in enemyList) {
 			enemyId = enemyList[i]
 			enemy = new Enemy(enemyId)
-			sprite = enemy.getSprite()
-			sprite.collision = false
-			enemies.push(sprite)
+//			sprite = enemy.getSprite()	
+			enemies.push(enemy)
 		}
 		return enemies
 	}

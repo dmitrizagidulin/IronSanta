@@ -16,7 +16,7 @@ function PlayerState() {
 	this.initAssets = function() {
 		jaws.assets.add("img/heart_full.png")
 		jaws.assets.add("img/santa_clause.png")
-		jaws.assets.add("img/santa_lucia.png")
+		jaws.assets.add("img/lucia.png")
 	}
 	
 	this.playerData = {
