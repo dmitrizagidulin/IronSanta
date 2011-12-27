@@ -22,9 +22,26 @@ Enemy.prototype.doCollideWith = function(item) {
 	this.hp -= 1
 	transparencyDamage = 1.0 / this.hpMax
 	this.alpha -= transparencyDamage
-	
 	if(this.hp < 1) {
 		this.collision = true
+	}
+}
+
+Enemy.prototype.direction = 'up'
+
+Enemy.prototype.move = function() {
+	if(this.direction == 'up') {
+		if(this.y > (gameAreaMinY + 20)) {
+			this.y -= 1
+		} else {
+			this.direction = 'down'
+		}
+	} else if(this.direction == 'down') {
+		if(this.y < gameAreaMaxY) {
+			this.y += 1
+		} else {
+			this.direction = 'up'
+		}
 	}
 }
 

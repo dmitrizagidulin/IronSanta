@@ -33,20 +33,20 @@ jaws.SpriteList.prototype.drawIfValid = function() {
 		jaws.context.strokeStyle =  "rgba(200, 200, 200, 0.0)"
 		jaws.context.fillText(text, x, y)
 	}
-	
+
+	var topBarHeight = 70
+	var topBarWidth = 800
+	var sideBarWidth = 100
+	var gameAreaMinX = 0
+	var gameAreaMaxX = 900 - sideBarWidth //jaws.width - sideBarWidth
+	var gameAreaMinY = topBarHeight + 4
+	var gameAreaMaxY = 500 - topBarHeight //jaws.height - topBarHeight
 /**
  * Main gameplay state.
  * Reached when player selects a character, and selects a stage 
  * (so, MenuState -> .. -> StageSelectState -> GameState)
  */
 	function GameState() {
-		var topBarHeight = 70
-		var topBarWidth = 800
-		var sideBarWidth = 100
-		var gameAreaMinX = 0
-		var gameAreaMaxX = jaws.width - sideBarWidth
-		var gameAreaMinY = topBarHeight + 4
-		var gameAreaMaxY = jaws.height - topBarHeight
 		
 		var player
 		
@@ -77,6 +77,7 @@ jaws.SpriteList.prototype.drawIfValid = function() {
 		}
 		
 		this.update = function() {
+			// Move player or process player events
 			if(jaws.pressed("left"))  { player.x -= playerSpeed }
 			if(jaws.pressed("right")) { player.x += playerSpeed }
 			if(jaws.pressed("up"))    { player.y -= playerSpeed }
@@ -91,9 +92,10 @@ jaws.SpriteList.prototype.drawIfValid = function() {
 					setTimeout(function() { player.can_fire = true }, 200)
 				}
 			}
- 
+			// Make sure player is inside screen game area
 			forceInsideCanvas(player)
 
+			// Move bullets and detect collisions
 			bullets.forEach(function(sprite, index) {
 				sprite.x += bulletSpeed
 			})
@@ -105,6 +107,12 @@ jaws.SpriteList.prototype.drawIfValid = function() {
 				enemy.doCollideWith(bullet)
 			});
 
+			// Move enemies
+			enemies.forEach(function(enemy, index) {
+				enemy.move()
+			})
+			
+			// Remove appropriate sprites
 			bullets.removeIf(isOutsideCanvas) // delete items for which isOutsideCanvas(item) is true
 			bullets.removeIf(isHit)
 			enemies.removeIf(isHit)
