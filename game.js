@@ -68,7 +68,7 @@ jaws.SpriteList.prototype.drawIfValid = function() {
 			currentStage = stageList.currentStage()
 			currentStage.nextLevelMarkCleared()
 			if(currentStage.isCleared()) {
-				jaws.switchGameState(StageSelectState)
+				jaws.switchGameState(StageClearedState)
 			} else {
 				// Stage not yet cleared, has more levels. 
 				jaws.switchGameState(GameState)
@@ -185,6 +185,22 @@ jaws.SpriteList.prototype.drawIfValid = function() {
 			drawText(12, "Black", "There is no Mrs. Claus. There are no reindeer or elves.", 75, 100)
 			drawText(12, "Black", "He is a lone paladin of Christmas and all he wants is to do his work in peace.", 75, 130)
 			drawText(10, "Black", "(press Enter to start)", 75, 160)
+		}
+	}
+	
+	function StageClearedState() {
+		this.setup = function() {
+			jaws.on_keydown("esc",  function() { jaws.switchGameState(MenuState) })
+			jaws.preventDefaultKeys(["enter"])
+			jaws.on_keydown(["enter"],  function()  { 
+				jaws.switchGameState(StageSelectState) 
+			})
+		}
+		
+		this.draw = function() {
+			jaws.context.clearRect(0,0,jaws.width,jaws.height)
+			drawText(15, "Black", "Stage Cleared!", 75, 100)
+			drawText(10, "Black", "(press Enter to continue)", 75, 160)
 		}
 	}
 	
