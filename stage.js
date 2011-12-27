@@ -5,8 +5,9 @@ function Enemy(enemyId) {
 	this.x = this.data['x']
 	this.y = this.data['y']
 	if(this.data.hp) {
-		this.hp = this.data.hp
+		this.hpMax = this.data.hp
 	}
+	this.hp = this.hpMax
 	
 	this.collision = false  // Uncollided, by default
 	
@@ -15,15 +16,21 @@ function Enemy(enemyId) {
 }
 Object.extend(Enemy, jaws.Sprite)
 
-
-Enemy.prototype.hp = 3  // Default hp
+Enemy.prototype.hpMax = 3  // Default hp
 
 Enemy.prototype.doCollideWith = function(item) {
 	this.hp -= 1
-	this.alpha -= 0.3
+	transparencyDamage = 1.0 / this.hpMax
+	this.alpha -= transparencyDamage
+	
 	if(this.hp < 1) {
 		this.collision = true
 	}
+}
+
+Enemy.prototype.draw = function() {
+	drawText(fontSize=10, fillColor='Black', 'Hp: '+this.hp, this.x, this.y - 13)
+	jaws.Sprite.prototype.draw.call(this);
 }
 
 Enemy.prototype.bestiary = {
