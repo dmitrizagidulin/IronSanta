@@ -52,6 +52,7 @@ jaws.SpriteList.prototype.drawIfValid = function() {
 		
 		var bullets = new jaws.SpriteList()
 		var enemies = null
+		var enemy_bullets = jaws.SpriteList()
 
 		this.setup = function() { 
 			avatar = playerState.currentAvatar()
@@ -110,16 +111,39 @@ jaws.SpriteList.prototype.drawIfValid = function() {
 			// Move enemies
 			enemies.forEach(function(enemy, index) {
 				enemy.move()
+				if(enemy.can_fire) {
+					enemy.can_fire = false
+					enemy_bullet = new jaws.Sprite({image: 'img/enemy_bullet.png', x:enemy.x, y:enemy.y})
+//					enemy_bullet = new jaws.Sprite({image: 'img/enemy_bullet.png', x:450, y:150})
+					enemy_bullets.push(enemy_bullet)
+					setTimeout(function() { enemy.can_fire = true }, 1800)
+				}
+			})
+			
+			// Move bullets and detect collisions
+			enemy_bullets.forEach(function(sprite, index) {
+				sprite.x -= 1
+			})
+
+			jaws.collideOneWithMany(player, enemy_bullets).forEach( function(bullet, player) {
+				bullet.collision = true
+				playerState.doCollideWith(bullet)
 			})
 			
 			// Remove appropriate sprites
 			bullets.removeIf(isOutsideCanvas) // delete items for which isOutsideCanvas(item) is true
 			bullets.removeIf(isHit)
 			enemies.removeIf(isHit)
+			enemy_bullets.removeIf(isHit)
 
 			if(enemies.length == 0) {
 				this.levelMarkCleared()
 			}
+			
+			if(playerState.isDead()) {
+				jaws.switchGameState(GameOverState)
+			}
+			
 //			fps.innerHTML = jaws.game_loop.fps
 		}
 
@@ -131,6 +155,9 @@ jaws.SpriteList.prototype.drawIfValid = function() {
 			currentStage = stageList.currentStage()
 			defeatText = 'Defeat: ' + stageList.currentBossName()
 			drawText(fontSize=15, fillColor='Black', defeatText, barPadding, barPadding*2)
+			
+			drawText(fontSize=15, fillColor='Black', 'Life: '+playerState.hp, barPadding, barPadding*2 + 25)
+			
 			currentLevel = currentStage.currentLevel()
 			drawText(fontSize=15, fillColor='Black', "Level: "+currentLevel, barPadding + 400, barPadding*2)
 			
@@ -144,6 +171,7 @@ jaws.SpriteList.prototype.drawIfValid = function() {
 			player.draw()
 			bullets.drawIf(isAlive)  // will call draw() on all items in the list
 			enemies.drawIf(isAlive)
+			enemy_bullets.drawIf(isAlive)
 		}
  
 		function isHit(item) {
@@ -278,6 +306,22 @@ jaws.SpriteList.prototype.drawIfValid = function() {
 		}
 	}
 	
+	function GameOverState() {
+		this.setup = function() {
+			jaws.on_keydown("esc",  function() { jaws.switchGameState(MenuState) })
+			jaws.preventDefaultKeys(["enter"])
+			jaws.on_keydown(["enter"],  function()  { 
+				jaws.switchGameState(MenuState) 
+			})
+		}
+		
+		this.draw = function() {
+			jaws.context.clearRect(0,0,jaws.width,jaws.height)
+			drawText(15, "Black", "Game Over!", 75, 100)
+			drawText(10, "Black", "(press Enter to restart)", 75, 160)
+		}
+	}
+	
 /*
 *
 * Character select menu
@@ -286,6 +330,9 @@ jaws.SpriteList.prototype.drawIfValid = function() {
 	function MenuState() {
 		var index = 0
 		var items = ["Santa Claus", "Santa Lucia"]
+		
+		stageList = new StageList()  // see stage.js
+		playerState = new PlayerState()  // see player.js
 		
 		this.setup = function() {
 			index = 0

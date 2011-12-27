@@ -17,6 +17,7 @@ function Enemy(enemyId) {
 Object.extend(Enemy, jaws.Sprite)
 
 Enemy.prototype.hpMax = 3  // Default hp
+Enemy.prototype.can_fire = true
 
 Enemy.prototype.doCollideWith = function(item) {
 	this.hp -= 1
@@ -255,6 +256,7 @@ function StageList() {
 		jaws.assets.add("img/dryturkey.png")
 		jaws.assets.add("img/snowman.jpg")
 		jaws.assets.add("img/oil.png")
+		jaws.assets.add('img/enemy_bullet.png')
 	}
 	
 	this.isStageCleared = function(stageId) {

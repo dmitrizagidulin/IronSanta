@@ -1,4 +1,6 @@
 function PlayerState() {
+	this.hp = this.maxHp
+	
 	this.characterName = function() {
 		return this.playerData[this.currentCharSelected()]['name']
 	}
@@ -38,4 +40,14 @@ function PlayerState() {
 	this.selectCharacter = function(index) {
 		this.charSelected = index
 	}
+}
+
+PlayerState.prototype.maxHp = 3
+
+PlayerState.prototype.doCollideWith = function(item) {
+	this.hp -= 1
+}
+
+PlayerState.prototype.isDead = function() {
+	return this.hp <= 0
 }
