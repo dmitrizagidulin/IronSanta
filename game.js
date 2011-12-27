@@ -372,15 +372,25 @@ jaws.SpriteList.prototype.drawIfValid = function() {
 		
 		this.draw = function() {
 			jaws.context.clearRect(0,0,jaws.width,jaws.height)
-			drawText(12, "Black", "You win.", 75, 70)
-			drawText(12, "Black", "All is right with the world", 75, 100)
-			drawText(12, "Black", "The Arctic ice has been restored.", 75, 130)
-			drawText(12, "Black", "Pluto is a planet again.", 75, 160)
-			drawText(12, "Black", "All mortgages have been forgiven.", 75, 190)
-			drawText(12, "Black", "Facebook respects your privacy.", 75, 210)
-			drawText(12, "Black", "Firefly has been renewed.", 75, 240)
-			drawText(12, "Black", "The vessels are mended.", 75, 270)
-			drawText(12, "Black", "Happy holidays.", 75, 330)
+			var y = 70, row = 30
+			drawText(12, "Black", "You win.", 75, y)
+			y += row
+			drawText(12, "Black", "All is right with the world.", 75, y)
+			y += row
+			drawText(12, "Black", "The Arctic ice has been restored.", 75, y)
+			y += row
+			drawText(12, "Black", "Pluto is a planet again.", 75, y)
+			y += row
+			drawText(12, "Black", "All mortgages have been forgiven.", 75, y)
+			y += row
+			drawText(12, "Black", "Facebook respects your privacy.", 75, y)
+			y += row
+			drawText(12, "Black", "Firefly has been renewed.", 75, y)
+			y += row
+			drawText(12, "Black", "The vessels are mended.", 75, y)
+			y += row
+			y += row
+			drawText(12, "Black", "Happy holidays.", 75, y)
 		}
 	}
 	
