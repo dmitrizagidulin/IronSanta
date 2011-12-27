@@ -8,15 +8,22 @@ function Enemy(enemyId) {
 		this.hp = this.data.hp
 	}
 	
-	this.collision = false
+	this.collision = false  // Uncollided, by default
 	
 	// User parent's constructor
 	jaws.Sprite.call(this, {image: this.spriteImage, x: this.x, y: this.y})
 }
-
 Object.extend(Enemy, jaws.Sprite)
 
+
 Enemy.prototype.hp = 3  // Default hp
+
+Enemy.prototype.doCollideWith = function(item) {
+	this.hp -= 1
+	if(this.hp < 1) {
+		this.collision = true
+	}
+}
 
 Enemy.prototype.bestiary = {
 		'skull':{
@@ -28,7 +35,7 @@ Enemy.prototype.bestiary = {
 			'sprite':'img/death.png',
 			x: 500,
 			y: 150,
-			hp: 4
+			hp: 3
 		},
 		'winter':{
 			'sprite':'img/winter.png',

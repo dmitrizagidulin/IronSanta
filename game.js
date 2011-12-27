@@ -1,3 +1,10 @@
+/** Draw sprites in spritelist where condition(sprite) returns true */
+jaws.SpriteList.prototype.drawIfValid = function() {
+  for(i=0; this[i]; i++) {
+    if( this[i].isOkToDraw() ) { this[i].draw() }
+  }
+}
+
 /*
 *
 * GameState is the actual game play. We switch to it once user choses "Start game"
@@ -92,7 +99,10 @@
 			})
 			jaws.collideManyWithMany(bullets, enemies).forEach( function(pair, index) {
 				pair[0].collision = true
-				pair[1].collision = true
+//				pair[1].collision = true
+				bullet = pair[0]
+				enemy = pair[1]
+				enemy.doCollideWith(bullet)
 			});
 
 			bullets.removeIf(isOutsideCanvas) // delete items for which isOutsideCanvas(item) is true
