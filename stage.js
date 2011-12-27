@@ -20,6 +20,7 @@ Enemy.prototype.hp = 3  // Default hp
 
 Enemy.prototype.doCollideWith = function(item) {
 	this.hp -= 1
+	this.alpha -= 0.3
 	if(this.hp < 1) {
 		this.collision = true
 	}
