@@ -1,0 +1,8 @@
+= Iron Santa (world battle) - An HTML5/Canvas/Javascript game, made for Ludum Dare 22 www.ludumdare.com/compo/ludum-dare-22/
+
+My first ever videogame! Play at:
+http://memetika.com/iron_santa/
+
+== Frameworks
+Uses:
+* http://jawsjs.com/ JawsJS game framework
