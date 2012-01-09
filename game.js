@@ -169,17 +169,13 @@ jaws.SpriteList.prototype.drawIfValid = function() {
 			jaws.context.clearRect(0,0,jaws.width,jaws.height)
 			this.drawTopBar()
 			player.draw()
-			bullets.drawIf(isAlive)  // will call draw() on all items in the list
-			enemies.drawIf(isAlive)
-			enemy_bullets.drawIf(isAlive)
+			bullets.draw()
+			enemies.draw()
+			enemy_bullets.draw()
 		}
  
 		function isHit(item) {
 			return item.collision
-		}
-
-		function isAlive(item) {
-			return !isHit(item) && !isOutsideCanvas(item)
 		}
 
 /* Simular to example1 but now we're using jaws properties to get width and height of canvas instead */
